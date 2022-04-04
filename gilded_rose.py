@@ -3,16 +3,19 @@ class GildedRose(object):
     def __init__(self, items):
         self.items = items
 
+    def is_normal_item(self, item):
+        return item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert" and item.name != "Sulfuras, Hand of Ragnaros"
+
     def update_quality(self):
         for item in self.items:
             # Sulfuras quality never change
             # Item's not Aged Brie or Backstage will decrease its quality by 1 each day
-            if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
+            if self.is_normal_item(item):
                 # The quality's never negative
-                if item.name != "Sulfuras, Hand of Ragnaros":
-                    item.quality = max(0, item.quality - 1)
+                item.quality = max(0, item.quality - 1)
+
             # Item's Aged Brie or Backstage
-            else:
+            elif item.name == "Aged Brie" or item.name == "Backstage passes to a TAFKAL80ETC concert":
                 # 50 is the maximum quality for each item
                 # Increase by one each day
                 item.quality = item.quality + 1
@@ -20,11 +23,9 @@ class GildedRose(object):
                 if item.name == "Backstage passes to a TAFKAL80ETC concert":
                     # quality will increase by 2 (add 1 more) if it's sell in days <= 10 
                     if item.sell_in < 11:
-                        # Item quality can never pass 50
                         item.quality = item.quality + 1
                     # quality will increase more by 3 (add 1 more) if it's sell in days <= 5
                     if item.sell_in < 6:
-                        # Item quality can never pass 50
                         item.quality = item.quality + 1
                 item.quality = min(50, item.quality)
 
