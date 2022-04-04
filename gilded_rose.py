@@ -9,28 +9,26 @@ class GildedRose(object):
             # Item's not Aged Brie or Backstage will decrease its quality by 1 each day
             if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
                 # The quality's never negative
-                if item.quality > 0:
-                    # Sulfuras quality never change     
-                    if item.name != "Sulfuras, Hand of Ragnaros":
-                        item.quality = item.quality - 1
+                if item.name != "Sulfuras, Hand of Ragnaros":
+                    item.quality = max(0, item.quality - 1)
             # Item's Aged Brie or Backstage
             else:
                 # 50 is the maximum quality for each item
-                if item.quality < 50:
-                    # Increase by one each day
-                    item.quality = item.quality + 1
-                    # Backstage item will increase its quality rate as the sell in date is near
-                    if item.name == "Backstage passes to a TAFKAL80ETC concert":
-                        # quality will increase by 2 (add 1 more) if it's sell in days <= 10 
-                        if item.sell_in < 11:
-                            # Item quality can never pass 50
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-                        # quality will increase more by 3 (add 1 more) if it's sell in days <= 5
-                        if item.sell_in < 6:
-                            # Item quality can never pass 50
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
+                # Increase by one each day
+                item.quality = item.quality + 1
+                # Backstage item will increase its quality rate as the sell in date is near
+                if item.name == "Backstage passes to a TAFKAL80ETC concert":
+                    # quality will increase by 2 (add 1 more) if it's sell in days <= 10 
+                    if item.sell_in < 11:
+                        # Item quality can never pass 50
+                        if item.quality < 50:
+                            item.quality = item.quality + 1
+                    # quality will increase more by 3 (add 1 more) if it's sell in days <= 5
+                    if item.sell_in < 6:
+                        # Item quality can never pass 50
+                        if item.quality < 50:
+                            item.quality = item.quality + 1
+                item.quality = min(50, item.quality)
 
             # After dealing with quality, we'll handle sell in
             # If it's not sulfuras, its sell in date will decrease by one
