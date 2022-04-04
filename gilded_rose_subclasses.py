@@ -1,3 +1,6 @@
+from pyparsing import GoToColumn
+
+
 class GildedRoseItem:
   def __init__(self, item):
       self.sell_in = item.sell_in
@@ -30,3 +33,17 @@ class AgedBrieGildedRoseItem(GildedRoseItem):
       self.sell_in = self.sell_in - 1
       if self.sell_in < 0:
           self.quality = min(50, self.quality + 1)
+
+class BackstageGildedRoseItem(GildedRoseItem):
+  def handle_quality(self):
+      self.quality = self.quality + 1
+      if self.sell_in < 11:
+          self.quality = self.quality + 1
+      if self.sell_in < 6:
+          self.quality = self.quality + 1
+      self.quality = min(50, self.quality)
+  
+  def handle_sellin(self):
+      self.sell_in = self.sell_in - 1
+      if self.sell_in < 0:
+          self.quality = 0

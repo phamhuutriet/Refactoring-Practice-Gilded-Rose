@@ -14,19 +14,6 @@ class GildedRose(object):
     def is_backstage(self, item):
         return item.name == "Backstage passes to a TAFKAL80ETC concert"
 
-    def handle_quality_backstage(self, item):
-        item.quality = item.quality + 1
-        if item.sell_in < 11:
-            item.quality = item.quality + 1
-        if item.sell_in < 6:
-            item.quality = item.quality + 1
-        item.quality = min(50, item.quality)
-
-    def handle_sellin_backstage(self, item):
-        item.sell_in = item.sell_in - 1
-        if item.sell_in < 0:
-            item.quality = 0
-
     def is_sulfuras(self, item):
         return item.name == "Sulfuras, Hand of Ragnaros"
 
@@ -35,6 +22,8 @@ class GildedRose(object):
             return NormalGildedRoseItem(item)
         elif self.is_aged_brie(item):
             return AgedBrieGildedRoseItem(item)
+        elif self.is_backstage(item):
+            return BackstageGildedRoseItem(item)
 
     def update_quality(self):
         for item in self.items:
@@ -52,8 +41,8 @@ class GildedRose(object):
 
             # Item's Aged Brie or Backstage
             elif self.is_backstage(item):
-                self.handle_quality_backstage(item)
-                self.handle_sellin_backstage(item)
+                new_item.update_quality()
+                item.sell_in, item.quality = new_item.sell_in, new_item.quality
 
             elif self.is_sulfuras(item):
                 continue
