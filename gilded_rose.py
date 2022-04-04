@@ -24,28 +24,14 @@ class GildedRose(object):
             return AgedBrieGildedRoseItem(item)
         elif self.is_backstage(item):
             return BackstageGildedRoseItem(item)
+        elif self.is_sulfuras(item):
+            return SulfuricGildedRoseItem(item)
 
     def update_quality(self):
         for item in self.items:
-            # Sulfuras quality never change
-            # Item's not Aged Brie or Backstage will decrease its quality by 1 each day
             new_item = self.gildedRose_item_factory(item)
-
-            if self.is_normal_item(item):
-                new_item.update_quality()
-                item.sell_in, item.quality = new_item.sell_in, new_item.quality
-
-            elif self.is_aged_brie(item):
-                new_item.update_quality()
-                item.sell_in, item.quality = new_item.sell_in, new_item.quality
-
-            # Item's Aged Brie or Backstage
-            elif self.is_backstage(item):
-                new_item.update_quality()
-                item.sell_in, item.quality = new_item.sell_in, new_item.quality
-
-            elif self.is_sulfuras(item):
-                continue
+            new_item.update_quality()
+            item.sell_in, item.quality = new_item.sell_in, new_item.quality
     
 
 class Item:

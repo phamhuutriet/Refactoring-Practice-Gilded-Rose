@@ -47,3 +47,10 @@ class BackstageGildedRoseItem(GildedRoseItem):
       self.sell_in = self.sell_in - 1
       if self.sell_in < 0:
           self.quality = 0
+
+class SulfuricGildedRoseItem(GildedRoseItem):
+  def handle_quality(self):
+      return 
+
+  def handle_sellin(self):
+      return 
