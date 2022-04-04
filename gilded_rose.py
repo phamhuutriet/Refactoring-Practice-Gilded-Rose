@@ -12,6 +12,9 @@ class GildedRose(object):
     def is_backstage(self, item):
         return item.name == "Backstage passes to a TAFKAL80ETC concert"
 
+    def is_sulfuras(self, item):
+        return item.name == "Sulfuras, Hand of Ragnaros"
+
     def update_quality(self):
         for item in self.items:
             # Sulfuras quality never change
@@ -24,17 +27,15 @@ class GildedRose(object):
 
             # Item's Aged Brie or Backstage
             if self.is_backstage(item):
-                # 50 is the maximum quality for each item
-                # Increase by one each day
-                # Backstage item will increase its quality rate as the sell in date is near
-                # quality will increase by 2 (add 1 more) if it's sell in days <= 10 
                 item.quality = item.quality + 1
                 if item.sell_in < 11:
                     item.quality = item.quality + 1
-                # quality will increase more by 3 (add 1 more) if it's sell in days <= 5
                 if item.sell_in < 6:
                     item.quality = item.quality + 1
                 item.quality = min(50, item.quality)
+
+            if self.is_sulfuras(item):
+                continue
 
             # After dealing with quality, we'll handle sell in
             # If it's not sulfuras, its sell in date will decrease by one
