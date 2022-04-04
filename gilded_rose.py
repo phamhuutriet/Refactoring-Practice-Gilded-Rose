@@ -5,9 +5,6 @@ class GildedRose(object):
     def __init__(self, items):
         self.items = items
 
-    def is_normal_item(self, item):
-        return item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert" and item.name != "Sulfuras, Hand of Ragnaros"
-
     def is_aged_brie(self, item):
         return item.name == "Aged Brie"
 
@@ -18,14 +15,14 @@ class GildedRose(object):
         return item.name == "Sulfuras, Hand of Ragnaros"
 
     def gildedRose_item_factory(self, item):
-        if self.is_normal_item(item):
-            return NormalGildedRoseItem(item)
-        elif self.is_aged_brie(item):
+        if self.is_aged_brie(item):
             return AgedBrieGildedRoseItem(item)
         elif self.is_backstage(item):
             return BackstageGildedRoseItem(item)
         elif self.is_sulfuras(item):
             return SulfuricGildedRoseItem(item)
+        else:
+            return NormalGildedRoseItem(item)
 
     def update_item(self, item, new_item):
         item.sell_in, item.quality = new_item.sell_in, new_item.quality
