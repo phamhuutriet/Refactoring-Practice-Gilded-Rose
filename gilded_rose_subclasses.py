@@ -1,6 +1,3 @@
-from pyparsing import GoToColumn
-
-
 class GildedRoseItem:
   def __init__(self, item):
       self.sell_in = item.sell_in

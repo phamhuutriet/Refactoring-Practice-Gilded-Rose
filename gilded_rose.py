@@ -27,11 +27,14 @@ class GildedRose(object):
         elif self.is_sulfuras(item):
             return SulfuricGildedRoseItem(item)
 
+    def update_item(self, item, new_item):
+        item.sell_in, item.quality = new_item.sell_in, new_item.quality
+
     def update_quality(self):
         for item in self.items:
             new_item = self.gildedRose_item_factory(item)
             new_item.update_quality()
-            item.sell_in, item.quality = new_item.sell_in, new_item.quality
+            self.update_item(item, new_item)
     
 
 class Item:
