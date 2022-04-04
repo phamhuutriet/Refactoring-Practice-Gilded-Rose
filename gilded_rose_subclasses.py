@@ -21,4 +21,12 @@ class NormalGildedRoseItem(GildedRoseItem):
       self.sell_in = self.sell_in - 1
       if self.sell_in < 0:
           self.quality = max(0, self.quality - 1)
-  
+
+class AgedBrieGildedRoseItem(GildedRoseItem):
+  def handle_quality(self):
+      self.quality = min(50, self.quality + 1)
+
+  def handle_sellin(self):
+      self.sell_in = self.sell_in - 1
+      if self.sell_in < 0:
+          self.quality = min(50, self.quality + 1)
