@@ -6,27 +6,34 @@ class GildedRose(object):
     def is_normal_item(self, item):
         return item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert" and item.name != "Sulfuras, Hand of Ragnaros"
 
+    def is_aged_brie(self, item):
+        return item.name == "Aged Brie"
+
+    def is_backstage(self, item):
+        return item.name == "Backstage passes to a TAFKAL80ETC concert"
+
     def update_quality(self):
         for item in self.items:
             # Sulfuras quality never change
             # Item's not Aged Brie or Backstage will decrease its quality by 1 each day
             if self.is_normal_item(item):
-                # The quality's never negative
                 item.quality = max(0, item.quality - 1)
 
+            if self.is_aged_brie(item):
+                item.quality = min(50, item.quality + 1)
+
             # Item's Aged Brie or Backstage
-            elif item.name == "Aged Brie" or item.name == "Backstage passes to a TAFKAL80ETC concert":
+            if self.is_backstage(item):
                 # 50 is the maximum quality for each item
                 # Increase by one each day
-                item.quality = item.quality + 1
                 # Backstage item will increase its quality rate as the sell in date is near
-                if item.name == "Backstage passes to a TAFKAL80ETC concert":
-                    # quality will increase by 2 (add 1 more) if it's sell in days <= 10 
-                    if item.sell_in < 11:
-                        item.quality = item.quality + 1
-                    # quality will increase more by 3 (add 1 more) if it's sell in days <= 5
-                    if item.sell_in < 6:
-                        item.quality = item.quality + 1
+                # quality will increase by 2 (add 1 more) if it's sell in days <= 10 
+                item.quality = item.quality + 1
+                if item.sell_in < 11:
+                    item.quality = item.quality + 1
+                # quality will increase more by 3 (add 1 more) if it's sell in days <= 5
+                if item.sell_in < 6:
+                    item.quality = item.quality + 1
                 item.quality = min(50, item.quality)
 
             # After dealing with quality, we'll handle sell in
