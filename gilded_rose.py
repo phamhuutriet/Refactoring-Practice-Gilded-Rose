@@ -21,13 +21,11 @@ class GildedRose(object):
                     # quality will increase by 2 (add 1 more) if it's sell in days <= 10 
                     if item.sell_in < 11:
                         # Item quality can never pass 50
-                        if item.quality < 50:
-                            item.quality = item.quality + 1
+                        item.quality = item.quality + 1
                     # quality will increase more by 3 (add 1 more) if it's sell in days <= 5
                     if item.sell_in < 6:
                         # Item quality can never pass 50
-                        if item.quality < 50:
-                            item.quality = item.quality + 1
+                        item.quality = item.quality + 1
                 item.quality = min(50, item.quality)
 
             # After dealing with quality, we'll handle sell in
